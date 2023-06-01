@@ -1,32 +1,31 @@
-import cv2 as cv
-
+import cv2
 import mediapipe.python.solutions.hands as mp_hands
-import mediapipe.python.solutions.drawing_styles as mp_drawingstyles
 import mediapipe.python.solutions.drawing_utils as mp_drawingutils
 
+cap = cv2.VideoCapture(1  )
+fourcc = cv2.VideoWriter_fourcc('m','p', '4', 'v')
 
-with mp_hands.Hands(static_image_mode=False, max_num_hands=2, model_complexity=1, min_detection_confidence=0.7, min_tracking_confidence=0.7) as hands:
+with mp_hands.Hands(static_image_mode=False, max_num_hands=2, model_complexity=0, min_tracking_confidence=0.7, min_detection_confidence=0.7) as hands:
     while True:
-        fourcc = cv.VideoWriter_fourcc(*'mp4v')
-        cap = cv.VideoCapture(0)
-
         ret, frame = cap.read()
 
-        frame1 = cv.resize(frame, (640, 480))
+        frame1 = cv2.resize(frame, (640, 480))
 
-        results = hands.process(cv.cvtColor(frame1, cv.COLOR_BGR2RGB))
+        frame2 = cv2.flip(frame1, 1)
+
+        results = hands.process(cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB))
 
         if results.multi_hand_landmarks != None:
-            for handLandmarks in results.multi_hand_landmarks:
+            for multi_hand_landmarks in results.multi_hand_landmarks:
                 mp_drawingutils.draw_landmarks(
-                    frame1,
-                    handLandmarks,
+                    frame2,
+                    multi_hand_landmarks,
                     mp_hands.HAND_CONNECTIONS
                 )
 
-        cv.imshow("Frame", frame1)
+        cv2.imshow("HandTracking Window", frame2)
 
-        if cv.waitKey(1) == ord("q"):
+        waitkey = cv2.waitKey(1)
+
+        if waitkey == ord("q"):
             break
-
-    
