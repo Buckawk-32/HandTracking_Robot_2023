@@ -1,11 +1,12 @@
 import cv2
 import mediapipe.python.solutions.hands as mp_hands
 import mediapipe.python.solutions.drawing_utils as mp_drawingutils
+import mediapipe.python.solutions.drawing_styles as mp_drawingstyles
 
 cap = cv2.VideoCapture(1  )
 fourcc = cv2.VideoWriter_fourcc('m','p', '4', 'v')
 
-with mp_hands.Hands(static_image_mode=False, max_num_hands=2, model_complexity=0, min_tracking_confidence=0.7, min_detection_confidence=0.7) as hands:
+with mp_hands.Hands(static_image_mode=False, max_num_hands=1, model_complexity=1, min_tracking_confidence=0.7, min_detection_confidence=0.7) as hands:
     while True:
         ret, frame = cap.read()
 
@@ -20,8 +21,7 @@ with mp_hands.Hands(static_image_mode=False, max_num_hands=2, model_complexity=0
                 mp_drawingutils.draw_landmarks(
                     frame2,
                     multi_hand_landmarks,
-                    mp_hands.HAND_CONNECTIONS
-                )
+                    mp_hands.HAND_CONNECTIONS)
 
         cv2.imshow("HandTracking Window", frame2)
 
@@ -29,3 +29,5 @@ with mp_hands.Hands(static_image_mode=False, max_num_hands=2, model_complexity=0
 
         if waitkey == ord("q"):
             break
+
+    cap.release()
