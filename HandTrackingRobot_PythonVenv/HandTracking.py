@@ -25,7 +25,7 @@ with mp_hands.Hands(static_image_mode=False, max_num_hands=1 , model_complexity=
         
         findpos = findposition(frame2)
         if len(findpos)!=0:
-            if findpos[0][1:] > findpos[17][1:]:
+            if findpos[4][1:] > findpos[17][1:]:
                 Hand_Face = True
                 cv2.putText(frame2, 'Back Hand', (500, 10), cv2.FONT_HERSHEY_PLAIN, 0.75, (0, 225, 0), 1)
             else:
