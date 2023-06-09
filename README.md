@@ -24,5 +24,5 @@ This program will detect your right hand and whether your fingers are up or down
     - https://www.geeksforgeeks.org/right-and-left-hand-detection-using-python/
 
 ## Progress
-The only part that is left is the connection to the Arudino and Arudino code for the servo hand
+The only part left is to present in the Science Fair
 
