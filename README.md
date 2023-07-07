@@ -5,9 +5,21 @@ This is the my research project for 2023
 Nethika Jayith Rajapakse
 
 ## Description
-This is a prototype that I'm entering into my school's Science Fair.
+Now is the progression from handtracking to arm tracking.
 
-This program will detect your right hand and whether your fingers are up or down and whether you hand is back hand or front hand and will display this on the camera feed. This information will be inputed into an arundio, controlling a servo controlled hand that copies your hand's movement
+This is the things that I'll need for the project
+
+- Program
+    - Detect angles / degress
+    - Capture arm from many different veiw points
+    - Calculate the force applied to the robot arm to allow it to move to the end position 
+
+- Robot Arm
+    - Able to take the numbers from the program and convert them into the arudunio
+    - Sufficent power soruce for all the motors
+    - Motors:
+        - Six servos for the hand
+        - Haven't caculated how many motors needed for the rest of the arm
 
 ### Credit
 - TheRobotArm is the person that I took the models fro the robot hand from
@@ -24,5 +36,5 @@ This program will detect your right hand and whether your fingers are up or down
     - https://www.geeksforgeeks.org/right-and-left-hand-detection-using-python/
 
 ## Progress
-The only part left is to present in the Science Fair
+Code for the program to allow captire from many different angles
 
