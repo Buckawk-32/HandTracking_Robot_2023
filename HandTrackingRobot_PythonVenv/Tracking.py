@@ -40,23 +40,15 @@ def findposition_hand(frame):
                         list.append([id, x, y])
     return list
 
-# def findposition_arm(frame):
-#     list = []
-#     results = arms.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-#     if results.pose_landmarks != None:
-#         mp_drawingutils.draw_landmarks(
-#                 frame, 
-#                 results.pose_landmarks,
-#                 mp_pose.POSE_CONNECTIONS)   
-
-#         for pose_landmarks in results.pose_landmarks:
-#             for id, pt in enumerate (pose_landmarks.landmark):
-#                 x = int(pt.x * w)
-#                 y = int(pt.y * h)
-
-#                 list.append([id, x, y])
-
-#     return list
+def findposition_arm(frame):
+    results = arms.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    if results.pose_world_landmarks != None:   
+        for pose_landmarks in results.pose_world_landmarks:
+            mp_drawingutils.draw_landmarks(
+                frame, 
+                pose_landmarks,
+                mp_pose.POSE_CONNECTIONS)
+            
 
 def Thumb(findpos_hand, frame2, b, g, r):
     if len(findpos_hand)!=0:
@@ -85,7 +77,7 @@ def Thumb(findpos_hand, frame2, b, g, r):
 
                 
 def Index(findpos_hand, frame2, b, g, r):
-    if len(findpos_hand)!=0:
+    if len(findpos_hand)!=0: 
         if findpos_hand[8][2:] > findpos_hand[6][2:]:
             # Index_Finger = True
             cv2.putText(frame2, "Index Finger Down", (500, 30), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
@@ -129,7 +121,7 @@ while True:
 
     findpos_hand = findposition_hand(frame2)
 
-    # findpos_arm = findposition_arm(frame2)
+    findpos_arm = findposition_arm(frame2)
 
     Thumb(findpos_hand, frame2, b, g, r)
     Index(findpos_hand, frame2, b, g, r)
