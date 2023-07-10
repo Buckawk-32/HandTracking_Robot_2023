@@ -36,5 +36,5 @@ This is the things that I'll need for the project
     - https://www.geeksforgeeks.org/right-and-left-hand-detection-using-python/
 
 ## Progress
-Code for the program to allow captire from many different angles
+Building my robot hand prototype for only tracking hands
 
