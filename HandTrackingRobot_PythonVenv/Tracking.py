@@ -16,17 +16,19 @@ b = 0
 g = 0
 r = 0
 
+com_num = input("What is the COM port number? > ")
+
 cap_1 = cv2.VideoCapture(0)
 cap_2 = cv2.VideoCapture(1)
 
-# board = pyfirmata.Arduino('COM9')
+board = pyfirmata.Arduino(f'COM{com_num}')
 
-# servo_thumb = board.get_pin("d:3:s")
-# servo_index = board.get_pin("d:4:s")
-# servo_middle = board.get_pin("d:5:s")
-# servo_ring = board.get_pin("d:6:s")
-# servo_pinky = board.get_pin("d:7:s")
-# servo_face = board.get_pin("d:8:s")
+servo_thumb = board.get_pin("d:3:s")
+servo_index = board.get_pin("d:4:s")
+servo_middle = board.get_pin("d:5:s")
+servo_ring = board.get_pin("d:6:s")
+servo_pinky = board.get_pin("d:7:s")
+servo_face = board.get_pin("d:8:s")
 
 
 def findposition_hand(frame):
@@ -56,63 +58,92 @@ def Thumb(findpos_hand, frame2, b, g, r):
         if findpos_hand[4][1:] > findpos_hand[17][1:]:
             Hand_Face = True
             cv2.putText(frame2, 'Back Hand', (500, 10), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_face.write(220)
         else:
             Hand_Face = False
             cv2.putText(frame2, "Front Hand", (500, 10), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_face.write(0)
+            servo_face.write(0)
+
+        if Hand_Face == True:
+            servo_face.write(220)
+        elif Hand_Face == False:
+            servo_face.write(0)
         
         if Hand_Face == True:
             if findpos_hand[4][1:] < findpos_hand[3][1:]:
                 cv2.putText(frame2, "Thumb Down", (500, 20), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-                # servo_thumb.write(220)
+                thumb = True
             else:
                 cv2.putText(frame2, "Thumb Up", (500, 20), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-                # servo_thumb.write(0)
+                thumb = False
 
         if Hand_Face == False:
             if findpos_hand[4][1:] > findpos_hand[3][1:]:
                 cv2.putText(frame2, "Thumb Down", (500, 20), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-                # servo_thumb.write(220)
+                thumb = True
             else:
                 cv2.putText(frame2, "Thumb Up", (500, 20), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-                # servo_thumb.write(0)
+                thumb = False
+
+        if thumb == True:
+            servo_thumb.write(220)
+        elif thumb == False:
+            servo_thumb.write(0)
                 
 def Index(findpos_hand, frame2, b, g, r):
     if len(findpos_hand)!=0: 
         if findpos_hand[8][2:] > findpos_hand[6][2:]:
             cv2.putText(frame2, "Index Finger Down", (500, 30), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_index.write(220)
+            index = True
         else:
             cv2.putText(frame2, "Index Finger Up", (500, 30), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_index.write(0)
+            index = False
+
+        if index == True:
+            servo_index.write(220)
+        elif index == False:
+            servo_index.write(0)
 
 def Middle(findpos_hand, frame2, b, g, r):
     if len(findpos_hand)!=0:
         if findpos_hand[12][2:] > findpos_hand[10][2:]:
             cv2.putText(frame2, "Middle Finger Down", (500, 40), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_middle.write(220)
+            middle = True
         else:
             cv2.putText(frame2, "Middle Finger Up", (500, 40), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_middle.write(0)
+            middle = False
+
+        if middle == True:
+            servo_middle.write(220)
+        elif middle == False:
+            servo_middle.write(0)
 
 def Ring(findpos_hand, frame2, b, g, r):
     if len(findpos_hand)!=0:
         if findpos_hand[16][2:] > findpos_hand[14][2:]:
             cv2.putText(frame2, "Ring Finger Down", (500, 50), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_ring.write(220)
+            ring = True
         else:
             cv2.putText(frame2, "Ring Finger Up", (500, 50), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_ring.write(0)
+            ring = False
+
+        if ring == True:
+            servo_ring.write(220)
+        elif ring == False:
+            servo_ring.write(0)
 
 def Pinky(findpos_hand, frame2, b, g, r):
     if len(findpos_hand)!=0:
         if findpos_hand[20][2:] > findpos_hand[18][2:]:
             cv2.putText(frame2, "Pinky Finger Down", (500, 60), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_pinky.write(220)
+            pinky = True
         else:
             cv2.putText(frame2, "Pinky Finger Up", (500, 60), cv2.FONT_HERSHEY_PLAIN, 0.75, (b, g, r), 1)
-            # servo_pinky.write(0)
+            pinky = False
+
+        if pinky == True:
+            servo_pinky.write(220)
+        elif pinky == False:
+            servo_pinky.write(0)
 
 while True:
     ret, frame = cap_1.read()
