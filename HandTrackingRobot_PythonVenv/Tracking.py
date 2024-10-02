@@ -1,4 +1,6 @@
 import cv2
+import numpy
+import time
 from google.protobuf.json_format import MessageToDict
 
 import mediapipe.python.solutions.hands as mp_hands
@@ -7,7 +9,12 @@ import mediapipe.python.solutions.drawing_styles as mp_drawingstyles
 
 class HandTrack:
 
-    hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, model_complexity=1, min_detection_confidence=0.7, min_tracking_confidence=0.7)
+    hands = mp_hands.Hands(static_image_mode=False, 
+                           max_num_hands=1, 
+                           model_complexity=1, 
+                           min_detection_confidence=0.7, 
+                           min_tracking_confidence=0.7)
+
 
     b = 0
     g = 0
@@ -18,18 +25,18 @@ class HandTrack:
 
 
     def __intit__(self):
-
         self.list = None
 
 
-    def findposition_hand(self, frame):
+    def findHand(self, frame):
         self.list = []
         results = self.hands.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        # print("Started Tracking Hand!")
         if results.multi_hand_landmarks != None:
             for handedness in results.multi_handedness:
                 label = MessageToDict(handedness)
                 whichHand = (label['classification'][0]['label'])
-                if whichHand == "Right":
+                if whichHand == "Left":
                     for multi_hand_landmarks in results.multi_hand_landmarks:
                         mp_drawingutils.draw_landmarks(
                             frame,
@@ -41,6 +48,16 @@ class HandTrack:
                             y = int(pt.y * self.h)
 
                             self.list.append([id, x, y])
+    
+
+    def copyPositions(self):
+        positionArray = numpy.array(self.list)
+        return positionArray
+
+    def trackPoint(self, id):
+        if len(self.list)!=0:
+            point = self.list[id]
+            print(point)
 
     
     def _Thumb(self, frame):
@@ -107,14 +124,3 @@ class HandTrack:
             else:
                 cv2.putText(frame, "Pinky Finger Up", (500, 60), cv2.FONT_HERSHEY_PLAIN, 0.75, (self.b, self.g, self.r), 1)
                 pinky = False
-
-
-    def capture(self, frame):
-
-        self.findposition_hand(frame)
-
-        self._Thumb(frame)
-        self._Index(frame)
-        self._Middle(frame)
-        self._Ring(frame)
-        self._Pinky(frame)

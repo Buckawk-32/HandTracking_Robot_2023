@@ -1,8 +1,10 @@
 import cv2
 from Tracking import HandTrack
+from UnityClient import UnityClient
 
 
-handcap = HandTrack()
+tracker = HandTrack()
+unityClient = UnityClient(None)
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -12,23 +14,12 @@ while True:
 
     frame2 = cv2.flip(frame1, 1)
 
-    handcap.capture(frame=frame2)
+    tracker.findHand(frame2)
+    unityClient.refreshData(tracker.copyPositions().tobytes())
 
     cv2.imshow("Cam01", frame2)
 
     waitkey = cv2.waitKey(1)
 
     if waitkey == ord("q"):
-        break
-    elif waitkey == ord("b"):
-        b = 255
-        g = 0
-        r = 0
-    elif waitkey == ord("g"):
-        b = 0
-        g = 255
-        r = 0
-    elif waitkey == ord("r"):
-        b = 0
-        g = 0
-        r = 255
+        exit()
