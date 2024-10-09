@@ -15,6 +15,7 @@ while True:
     frame2 = cv2.flip(frame1, 1)
 
     tracker.findHand(frame2)
+    tracker.startUI(frame2)
     unityClient.refreshData(tracker.copyPositions())
 
     cv2.imshow("Cam01", frame2)
@@ -22,4 +23,8 @@ while True:
     waitkey = cv2.waitKey(1)
 
     if waitkey == ord("q"):
-        exit()
+        unityClient.stop()
+        break
+
+
+

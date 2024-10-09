@@ -1,6 +1,7 @@
 import cv2
 import numpy
 import time
+import json
 from google.protobuf.json_format import MessageToDict
 
 import mediapipe.python.solutions.hands as mp_hands
@@ -128,3 +129,11 @@ class HandTrack:
             else:
                 cv2.putText(frame, "Pinky Finger Up", (500, 60), cv2.FONT_HERSHEY_PLAIN, 0.75, (self.b, self.g, self.r), 1)
                 pinky = False
+
+
+    def startUI(self, frame):
+        self._Thumb(frame)
+        self._Index(frame)
+        self._Middle(frame)
+        self._Ring(frame)
+        self._Pinky(frame)

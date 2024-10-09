@@ -33,7 +33,7 @@ class UnityClient:
     
 
     def sendData(self):
-        print("UnityClient Connecting to Server...")
+        print("Unity Client Connecting to Server...")
         self.socket.connect((self.HOST, self.PORT))
     
         while True:
@@ -48,7 +48,7 @@ class UnityClient:
 
             #     if (serverResponse == "got data"):
             #         self.serverCheck = True
-
+        
 
     def refreshData(self, data):
         self.data = data
@@ -56,8 +56,14 @@ class UnityClient:
 
     def stop(self):
         if self.isThreadRunning:
-            self.socket.close()
+            try:
+                self.socket.close()
+            except ConnectionAbortedError:
+                print("Forced Abort!")
+
+            print("UnityClient Disconneted from the Server!")
             self.thread.join()
+            print("Stopped Unity Client Thread!")
 
             self.isThreadRunning = False
             self.serverCheck = False
