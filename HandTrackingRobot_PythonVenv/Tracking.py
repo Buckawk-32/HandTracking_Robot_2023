@@ -51,8 +51,12 @@ class HandTrack:
     
 
     def copyPositions(self):
-        positionArray = numpy.array(self.list)
-        return positionArray
+        if self.list != []:
+            positionArray = numpy.array(self.list)
+            return positionArray.tobytes()
+        else:
+            return None
+
 
     def trackPoint(self, id):
         if len(self.list)!=0:

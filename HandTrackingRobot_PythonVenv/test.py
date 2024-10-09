@@ -15,7 +15,7 @@ while True:
     frame2 = cv2.flip(frame1, 1)
 
     tracker.findHand(frame2)
-    unityClient.refreshData(tracker.copyPositions().tobytes())
+    unityClient.refreshData(tracker.copyPositions())
 
     cv2.imshow("Cam01", frame2)
 
