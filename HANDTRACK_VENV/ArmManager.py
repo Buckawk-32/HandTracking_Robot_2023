@@ -2,6 +2,9 @@ import serial
 import threading
 import time
 
+import serial.tools
+import serial.tools.list_ports
+
 # TODO: Make threading possible, so you can have a countinous stream of data on both ends
 
 # * https://forum.arduino.cc/t/two-ways-communication-between-python3-and-arduino/1219738
