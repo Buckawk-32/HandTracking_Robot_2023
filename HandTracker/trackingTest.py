@@ -13,6 +13,7 @@ while True:
 
     tracker.findHand(frame2)
     tracker.startUI(frame2)
+    
 
     cv2.imshow("Cam01", frame2)
 

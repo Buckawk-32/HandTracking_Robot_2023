@@ -6,10 +6,10 @@ class UnityClient:
     HOST, PORT = '127.0.0.1', 25001
 
     def __init__(self, data):
-        self.socket = socket.socket(socket.AddressFamily.AF_INET, socket.SOCK_STREAM)
+        self.client = socket.socket(socket.AddressFamily.AF_INET, socket.SOCK_STREAM)
 
-        self.thread = None
-        self.isThreadRunning = False
+        self.clientThread = None
+        self.isClientRunning = False
 
         self.data = data
 
@@ -25,20 +25,20 @@ class UnityClient:
 
     def start(self):
         print("Started Unity Client thread...")
-        self.thread = threading.Thread(target=self.sendData)
+        self.clientThread = threading.Thread(target=self.sendData)
 
-        self.isThreadRunning = True
+        self.isClientRunning = True
 
-        self.thread.start()
+        self.clientThread.start()
     
 
     def sendData(self):
         print("Unity Client Connecting to Server...")
-        self.socket.connect((self.HOST, self.PORT))
+        self.client.connect((self.HOST, self.PORT))
     
         while True:
             if self.data != None:
-                self.socket.sendall(self.data)
+                self.client.sendall(self.data)
                 self.serverCheck = False
             else:  
                 self.serverCheck = True
@@ -55,17 +55,17 @@ class UnityClient:
 
 
     def stop(self):
-        if self.isThreadRunning:
+        if self.isClientRunning:
             try:
-                self.socket.close()
+                self.client.close()
             except ConnectionAbortedError:
                 print("Forced Abort!")
 
             print("UnityClient Disconneted from the Server!")
-            self.thread.join()
+            self.clientThread.join()
             print("Stopped Unity Client Thread!")
 
-            self.isThreadRunning = False
+            self.isClientRunning = False
             self.serverCheck = False
 
 

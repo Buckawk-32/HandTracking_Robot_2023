@@ -51,10 +51,28 @@ class HandTrack:
                             self.list.append([id, x, y])
     
 
-    def copyPositions(self):
+    def copyPositions_Numpy(self):
         if self.list != []:
             positionArray = numpy.array(self.list)
-            return positionArray.tobytes()
+            print(positionArray.tobytes())
+            # return positionArray.tobytes()
+        else:
+            return None
+        
+
+    def copyPositions_Python(self):
+        if self.list != []:
+            positionArray = self.list
+            positionArray = bytearray(positionArray)
+            print(positionArray)
+        else:
+            return None
+
+
+    def testPostions(self):
+        if self.list != []:
+            positionArray = numpy.array(self.list)
+            return positionArray
         else:
             return None
 
